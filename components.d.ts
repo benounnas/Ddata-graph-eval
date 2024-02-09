@@ -7,8 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    GraphDetail: typeof import('./src/components/GraphDetail.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TooltipInput: typeof import('./src/components/TooltipInput.vue')['default']
+    TooltipInputDialog: typeof import('./src/components/TooltipInputDialog.vue')['default']
+    TootipGraph: typeof import('./src/components/TootipGraph.vue')['default']
   }
 }
