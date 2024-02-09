@@ -1,10 +1,25 @@
-<script setup>
-import { ref } from 'vue'
+<script lang="ts" setup>
+import {ref} from 'vue'
+import {useDebounceFn} from '@vueuse/core'
+
 
 const drawer = ref(null)
 const links = [
-  ['mdi-graph-outline', 'Graphs'],
+  {
+    name: 'Graphs',
+    icon: 'mdi-graph-outline',
+    to: '/graphs'
+  }
 ]
+
+
+const handleSearch = (x: any) => {
+
+  console.log(x) // 'response'
+}
+const debouncedHandleSearch = useDebounceFn((val) => {
+  handleSearch(val);
+}, 1000)
 
 </script>
 
@@ -13,8 +28,8 @@ const links = [
 
     <v-navigation-drawer v-model="drawer">
       <v-sheet
-        color="grey-lighten-4"
         class="pa-4"
+        color="grey-lighten-4"
       >
         <v-avatar
           class="mb-4"
@@ -27,10 +42,11 @@ const links = [
 
       <v-list>
         <v-list-item
-          v-for="[icon, text] in links"
-          :key="icon"
-          :prepend-icon="icon"
-          :title="text"
+          v-for="link in links"
+          :key="link.icon"
+          :prepend-icon="link.icon"
+          :title="link.name"
+          :to="link.to"
           link
         ></v-list-item>
       </v-list>
@@ -43,7 +59,7 @@ const links = [
     </v-app-bar>
 
     <v-main>
-      <!--  -->
+      <RouterView/>
     </v-main>
   </v-app>
 </template>
