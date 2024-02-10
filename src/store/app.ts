@@ -3,6 +3,7 @@ import {defineStore} from 'pinia'
 import {ref, reactive} from 'vue'
 import {Nodes, Edges, Layouts} from "v-network-graph"
 import * as vNG from "v-network-graph"
+import {useStorage} from '@vueuse/core'
 
 export const useAppStore = defineStore('app', () => {
 
@@ -12,22 +13,11 @@ export const useAppStore = defineStore('app', () => {
     tooltipDialogInput.value = !tooltipDialogInput.value
   }
 
-  const nodes = ref<Nodes>({
-    "1": {name: "Node 1", tooltip: 'Node 1'},
-    "2": {name: "Node 2", tooltip: 'Node 2'},
-    "3": {name: "Node 3", tooltip: 'changed 3'},
-  })
-  const edges = ref<Edges>({
-    "1": {source: "1", target: "2"},
-    "2": {source: "2", target: "3"},
-  })
+  const nodes = ref<Nodes>({})
+  const edges = ref<Edges>({})
 
   const layouts = ref<Layouts>({
-    nodes: {
-      "1": {x: 50, y: 0},
-      "2": {x: 0, y: 75},
-      "3": {x: 100, y: 75},
-    },
+    nodes: {}
   })
 
   const configs = reactive(vNG.getFullConfigs())
@@ -49,7 +39,7 @@ export const useAppStore = defineStore('app', () => {
   }
 
   function addNode(tooltip: string = '') {
-    const nodeId = nextNodeIndex.value;
+    const nodeId = Math.random().toString(36).substring(2, 7);
     const name = `Node ${nextNodeIndex.value}`;
     nodes.value[nodeId] = {name: name, tooltip: tooltip};
     nextNodeIndex.value++;
@@ -68,13 +58,32 @@ export const useAppStore = defineStore('app', () => {
     edges.value[edgeId] = {source, target}
     nextEdgeIndex.value++
     configs.node.selectable = true
-
+    resetSelectedNodes()
   }
 
   function removeEdge() {
     for (const edgeId of selectedEdges.value) {
       delete edges.value[edgeId]
     }
+  }
+
+  function saveNodesToGraph(graphId: string) {
+    const graphData = {
+      id: graphId,
+      nodes: nodes.value,
+      edges: edges.value,
+      layouts: layouts.value
+    };
+
+    let previousData = JSON.parse(localStorage.getItem('graphs'));
+
+    if (!Array.isArray(previousData)) {
+      previousData = [];
+    }
+
+    previousData.push(graphData);
+    localStorage.setItem('graphs', JSON.stringify(previousData));
+
   }
 
 
@@ -95,6 +104,7 @@ export const useAppStore = defineStore('app', () => {
     addEdge,
     removeEdge,
     resetSelectedNodes,
-    resetSelectedEdges
+    resetSelectedEdges,
+    saveNodesToGraph
   }
 })

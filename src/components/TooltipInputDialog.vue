@@ -8,9 +8,10 @@ const appStore = useAppStore()
 const {tooltipDialogInput} = storeToRefs(appStore)
 const newTooltip = ref('')
 const addNewNode = () => {
-  appStore.addNode(newTooltip)
+  appStore.addNode(newTooltip.value)
   appStore.toggleTooltip()
   newTooltip.value = ''
+
 
 }
 </script>

@@ -73,6 +73,14 @@ watch(selectedNodes, (v) => {
 })
 onMounted(() => {
   configs.value.node.selectable = true
+  /* localStorage.setItem('graphs', JSON.stringify({
+     1: {
+       "id": 2,
+       "nodes": nodes.value,
+       "edges": edges.value,
+       "layouts": layouts.value
+     }
+   }))*/
 })
 </script>
 

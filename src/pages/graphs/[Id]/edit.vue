@@ -2,9 +2,10 @@
 import {useAppStore} from "@/store/app";
 import TootipGraph from "@/components/TootipGraph.vue";
 import TooltipInputDialog from "@/components/TooltipInputDialog.vue";
+import {useRoute} from "vue-router";
 
 const appStore = useAppStore()
-
+const route = useRoute()
 
 </script>
 
@@ -22,6 +23,7 @@ const appStore = useAppStore()
           class="ma-2"
           color="green"
           prepend-icon="mdi-content-save-outline"
+          @click="appStore.saveNodesToGraph(route.params['Id'])"
         >
 
 
