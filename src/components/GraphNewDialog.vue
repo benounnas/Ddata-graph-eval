@@ -9,24 +9,26 @@ const appStore = useAppStore()
 
 const {newGraphDialog} = storeToRefs(appStore)
 
-const initialFormData: Graph = {
-  id: Math.random().toString(36).substring(2),
-  name: '',
-  description: '',
-  created_at: new Date().toDateString(),
-  updated_at: new Date().toDateString(),
-  nodes: {} as Nodes,
-  edges: {} as Edges,
-  layouts: {} as Layouts
+const createInitialFormData = (): Graph => {
+  return {
+    id: Math.random().toString(36).substring(2),
+    name: '',
+    description: '',
+    created_at: new Date().toDateString(),
+    updated_at: new Date().toDateString(),
+    nodes: {} as Nodes,
+    edges: {} as Edges,
+    layouts: {} as Layouts
+  };
 }
 
-const form = ref<Graph>(initialFormData)
+const form = ref<Graph>(createInitialFormData())
 
 const addNewGraph = () => {
   appStore.saveGraph(toRaw(form.value))
 }
 watch(newGraphDialog, (v) => {
-  form.value = {...initialFormData}
+  form.value = {...createInitialFormData()}
 })
 </script>
 <template>

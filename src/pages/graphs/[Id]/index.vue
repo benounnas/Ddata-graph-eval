@@ -21,6 +21,19 @@ const {oneGraph} = storeToRefs(appStore)
         <v-btn
 
           class="ma-2"
+          prepend-icon="mdi-graph"
+          @click="router.push({path: '/graphs/' + route.params['Id'] + '/statistics'})"
+        >
+
+
+          Show statistics
+
+
+        </v-btn>
+
+        <v-btn
+
+          class="ma-2"
           prepend-icon="mdi-chart-timeline-variant-shimmer"
           @click="router.push({path: '/graphs/' + route.params['Id'] + '/edit'})"
         >

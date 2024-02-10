@@ -10,6 +10,7 @@ declare module 'vue' {
     DeleteConfirmDialog: typeof import('./src/components/DeleteConfirmDialog.vue')['default']
     GraphDetail: typeof import('./src/components/GraphDetail.vue')['default']
     GraphNewDialog: typeof import('./src/components/GraphNewDialog.vue')['default']
+    GraphsList: typeof import('./src/components/GraphsList.vue')['default']
     GraphTable: typeof import('./src/components/GraphTable.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     NewGraphDialog: typeof import('./src/components/NewGraphDialog.vue')['default']

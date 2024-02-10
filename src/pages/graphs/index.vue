@@ -5,6 +5,7 @@ import {onMounted} from "vue";
 import {useAppStore} from "@/store/app";
 import {storeToRefs} from "pinia";
 import GraphNewDialog from "@/components/GraphNewDialog.vue";
+import GraphsList from "@/components/GraphsList.vue";
 
 const goToGraph = (id: any) => {
   router.push({path: 'graphs/' + id})
@@ -20,27 +21,13 @@ onMounted(() => {
 
 
 <template>
-  <div class="ma-5 ">
+  <div class="ma-5 mt-5">
     <GraphNewDialog/>
-    <v-autocomplete
-      :items="[]"
-      auto-select-first
-      class="flex-full-width mt-5"
-      density="comfortable"
-      hide-no-data
-      item-props
-      menu-icon=""
-      placeholder="Search for graph"
-      prepend-inner-icon="mdi-magnify"
-      rounded
-      theme="light"
-      variant="solo"
-      @update:search="(val) => debouncedHandleSearch(val)"
-    ></v-autocomplete>
+
 
     <v-btn
 
-      class="ma-2"
+      class="ma-5"
       prepend-icon="mdi-plus"
       @click="appStore.toggleNewGraphDialog"
     >
@@ -54,13 +41,10 @@ onMounted(() => {
     <v-container fluid>
       <v-row>
         <v-col
-          v-for="graph in graphs"
-          :key="graph.id"
-          cols="2"
+          cols="8"
         >
-          <v-card @click="goToGraph(graph.id)">
-            {{ graph.name }}
-          </v-card>
+          <GraphsList :graphs="graphs"/>
+
         </v-col>
       </v-row>
     </v-container>

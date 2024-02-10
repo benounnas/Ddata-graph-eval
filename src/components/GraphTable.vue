@@ -16,8 +16,6 @@ onMounted(() => {
 
 </script>
 <template>
-  {{ oneGraph?.name }}
-  {{ oneGraph?.description }}
 
   <v-table>
     <thead>

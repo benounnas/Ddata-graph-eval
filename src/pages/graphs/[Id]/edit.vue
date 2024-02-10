@@ -3,12 +3,17 @@ import {useAppStore} from "@/store/app";
 import TootipGraph from "@/components/TootipGraph.vue";
 import TooltipInputDialog from "@/components/TooltipInputDialog.vue";
 import {useRoute} from "vue-router";
+import {useToast} from "vue-toastification";
 
+
+const toast = useToast();
 const appStore = useAppStore()
 const route = useRoute()
 const saveEdit = () => {
   appStore.saveNodesToGraph(route.params['Id'])
-  
+  toast.success("changes have been saved successfully", {
+    timeout: 2000
+  });
 }
 </script>
 
