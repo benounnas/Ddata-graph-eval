@@ -1,33 +1,45 @@
 <script lang="ts" setup>
-import {ref} from 'vue'
+import {ref, toRaw, watch} from 'vue'
 import {useAppStore} from "@/store/app";
 import {storeToRefs} from "pinia";
+import {Graph} from "@/types/graph";
+import {Edges, Layouts, Nodes} from "v-network-graph";
 
 const appStore = useAppStore()
 
-const {tooltipDialogInput} = storeToRefs(appStore)
-const newTooltip = ref('')
-const newName = ref('')
-const addNewNode = () => {
-  appStore.addNode(newTooltip.value, newName.value)
-  appStore.toggleTooltip()
-  newTooltip.value = ''
-  newName.value = ''
+const {newGraphDialog} = storeToRefs(appStore)
 
-
+const initialFormData: Graph = {
+  id: Math.random().toString(36).substring(2),
+  name: '',
+  description: '',
+  created_at: new Date().toDateString(),
+  updated_at: new Date().toDateString(),
+  nodes: {} as Nodes,
+  edges: {} as Edges,
+  layouts: {} as Layouts
 }
+
+const form = ref<Graph>(initialFormData)
+
+const addNewGraph = () => {
+  appStore.saveGraph(toRaw(form.value))
+}
+watch(newGraphDialog, (v) => {
+  form.value = {...initialFormData}
+})
 </script>
 <template>
   <v-row justify="center">
     <v-dialog
-      v-model="tooltipDialogInput"
+      v-model="newGraphDialog"
       persistent
       width="1024"
     >
 
       <v-card>
         <v-card-title>
-          <span class="text-h5">New Node</span>
+          <span class="text-h5">New Graph</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -38,8 +50,8 @@ const addNewNode = () => {
                 sm="12"
               >
                 <v-text-field
-                  v-model="newName"
-                  label="Node name"
+                  v-model="form.name"
+                  label="Name"
                   required
                 ></v-text-field>
               </v-col>
@@ -48,11 +60,11 @@ const addNewNode = () => {
                 md="12"
                 sm="12"
               >
-                <v-text-field
-                  v-model="newTooltip"
-                  label="Node tooltip"
+                <v-textarea
+                  v-model="form.description"
+                  label="Description"
                   required
-                ></v-text-field>
+                ></v-textarea>
               </v-col>
             </v-row>
           </v-container>
@@ -63,7 +75,7 @@ const addNewNode = () => {
           <v-btn
             color="blue-darken-1"
             variant="text"
-            @click="addNewNode"
+            @click="addNewGraph"
           >
             Save
           </v-btn>

@@ -6,7 +6,10 @@ import {useRoute} from "vue-router";
 
 const appStore = useAppStore()
 const route = useRoute()
-
+const saveEdit = () => {
+  appStore.saveNodesToGraph(route.params['Id'])
+  
+}
 </script>
 
 <template>
@@ -23,7 +26,7 @@ const route = useRoute()
           class="ma-2"
           color="green"
           prepend-icon="mdi-content-save-outline"
-          @click="appStore.saveNodesToGraph(route.params['Id'])"
+          @click="saveEdit"
         >
 
 

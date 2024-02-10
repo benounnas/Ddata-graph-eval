@@ -7,12 +7,17 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    DeleteConfirmDialog: typeof import('./src/components/DeleteConfirmDialog.vue')['default']
     GraphDetail: typeof import('./src/components/GraphDetail.vue')['default']
+    GraphNewDialog: typeof import('./src/components/GraphNewDialog.vue')['default']
+    GraphTable: typeof import('./src/components/GraphTable.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    NewGraphDialog: typeof import('./src/components/NewGraphDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TooltipInput: typeof import('./src/components/TooltipInput.vue')['default']
     TooltipInputDialog: typeof import('./src/components/TooltipInputDialog.vue')['default']
+    TooltipInputDialog2: typeof import('./src/components/TooltipInputDialog2.vue')['default']
     TootipGraph: typeof import('./src/components/TootipGraph.vue')['default']
   }
 }

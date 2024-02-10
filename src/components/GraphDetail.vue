@@ -32,6 +32,7 @@ const tooltip = ref<HTMLDivElement>()
 
 onMounted(() => {
   configs.value.node.selectable = true
+
 })
 
 watch(selectedNodes, (v) => {

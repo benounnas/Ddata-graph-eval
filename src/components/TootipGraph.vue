@@ -3,6 +3,7 @@ import {computed, ref, watch, onMounted} from "vue"
 import * as vNG from "v-network-graph"
 import {useAppStore} from "@/store/app";
 import {storeToRefs} from "pinia";
+import {useRoute} from "vue-router";
 
 const appStore = useAppStore()
 
@@ -16,6 +17,7 @@ const {
   maxSelectedNodes
 } = storeToRefs(appStore)
 
+const route = useRoute()
 // ref="graph"
 const graph = ref<vNG.Instance>()
 // ref="tooltip"
@@ -29,7 +31,7 @@ const tooltipOpacity = ref(0) // 0 or 1
 const tooltipPos = ref({left: "0px", top: "0px"})
 
 const targetNodePos = computed(() => {
-  const nodePos = layouts.value.nodes[targetNodeId.value]
+  const nodePos = layouts.value?.nodes?.[targetNodeId.value]
   return nodePos || {x: 0, y: 0}
 })
 
@@ -73,14 +75,7 @@ watch(selectedNodes, (v) => {
 })
 onMounted(() => {
   configs.value.node.selectable = true
-  /* localStorage.setItem('graphs', JSON.stringify({
-     1: {
-       "id": 2,
-       "nodes": nodes.value,
-       "edges": edges.value,
-       "layouts": layouts.value
-     }
-   }))*/
+  appStore.getOneGraphData(route.params['Id'])
 })
 </script>
 
@@ -102,7 +97,7 @@ onMounted(() => {
       :style="{ ...tooltipPos, opacity: tooltipOpacity }"
       class="tooltip"
     >
-      <div>{{ nodes[targetNodeId]?.tooltip ?? "" }}</div>
+      <div v-if="nodes">{{ nodes[targetNodeId]?.tooltip ?? "" }}</div>
     </div>
   </div>
 </template>
